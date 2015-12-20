@@ -4,13 +4,13 @@ import java.security.KeyPairGenerator;
 import java.security.spec.RSAKeyGenParameterSpec;
 
 /**
- * The class AliceRSA represents Alice who is in possesion of an RSA keypair and can issue signatures with her private key
+ * The class AliceRSA represents Alice who can create an RSA keypair and can issue digital signatures
  */
 public class Alice
 {
 	/**
 	 * Produces an RSA keypair (N,e,d)
-	 * N: modulus, e: public exponent, d: private exponent
+	 * N: Modulus, e: Public exponent, d: Private exponent
 	 * The public exponent value is set to 3 and the keylength to 2048
 	 * @return RSA keypair
 	 */

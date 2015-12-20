@@ -1,5 +1,5 @@
 # Crypto
-Implementing the blind RSA schem in Java
+Implementing the blind RSA scheme in Java
 
 Alice produces an RSA keypair and can use it to issue digital signatures
 

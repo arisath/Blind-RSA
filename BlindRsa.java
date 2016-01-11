@@ -44,7 +44,6 @@ public class BlindRsa
 			System.out.println();
 			long elapsedTimeMillis = System.currentTimeMillis() - start;
 			System.out.println("Program executed in " + elapsedTimeMillis + " milliseconds");
-
 		}
 		catch (Exception e)
 		{

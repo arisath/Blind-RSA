@@ -21,7 +21,7 @@ public class Bob
      * It is important that r is a random number so that mu does not leak any information about the actual message
      * @return the blinded messahe mu
      */
-    public static BigInteger calculateMu()
+    public static BigInteger calculateMu(RSAPublicKey rsaPublicKey)
     {
         try
         {
@@ -31,7 +31,7 @@ public class Bob
 
             m = new BigInteger(msg);  //create a BigInteger object based on the extracted bytes of the message
 
-            BigInteger e = BlindRsa.alicePublic.getPublicExponent(); //get the public exponent 'e' of Alice's key pair
+            BigInteger e = rsaPublicKey.getPublicExponent(); //get the public exponent 'e' of Alice's key pair
 
             BigInteger N = BlindRsa.N; // get modulus 'N' of the key pair
 

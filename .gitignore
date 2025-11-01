@@ -1,0 +1,59 @@
+# ---------------------------------------
+# Java + IntelliJ + Maven .gitignore
+# ---------------------------------------
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# IntelliJ project-specific settings
+# (Uncomment below if you want to ignore code style & run configs)
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries/
+# .idea/libraries/
+# .idea/shelf/
+# .idea/httpRequests/
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+### Gradle (if ever used) ###
+.gradle/
+build/
+
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+*.bak
+*.DS_Store
+Thumbs.db
+
+# IDE-specific
+.vscode/
+.nb-gradle/
+*.idea_modules/
+**/compiler.xml
+### OS ###
+# mac

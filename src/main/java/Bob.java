@@ -37,7 +37,7 @@ public class Bob
 
             log.add(2, "Bob", "Creates message",
                     "Message prepared for blind signing.",
-                    String.format("{\"message\":\"%s\"}", message));
+                    String.format("{\"message\":\"%s\"}", message),true);
 
             m = new BigInteger(msg);  //create a BigInteger object based on the extracted bytes of the message
 
@@ -71,7 +71,7 @@ public class Bob
 
             log.add(3, "Bob", "Blinds message",
                     "Bob blinds the message with random factor r before sending to Alice.",
-                    String.format("{\"r\":\"%s\",\"blinded\":\"%s\"}", r.toString(16), mu.toString(16)));
+                    String.format("{\"r\":\"%s\",\"blinded\":\"%s\"}", r.toString(16), mu.toString(16)),true);
 
             return mu;
 

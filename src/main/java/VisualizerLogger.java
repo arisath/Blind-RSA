@@ -21,8 +21,8 @@ public class VisualizerLogger {
      * @param detail  Human-readable explanation of what’s happening
      * @param payload Structured JSON/text representing data (keys, messages, signatures)
      */
-    public void add(int step, String actor, String action, String detail, String payload) {
-        steps.add(new Step(step, actor, action, detail, payload));
+    public void add(int step, String actor, String action, String detail, String payload, Boolean localStep) {
+        steps.add(new Step(step, actor, action, detail, payload,localStep));
     }
 
     /**

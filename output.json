@@ -4,20 +4,23 @@
     "actor": "Alice",
     "action": "Generates RSA keys",
     "detail": "Alice creates her public/private key pair.",
-    "payload": "{\"n\":\"c5b3760818a7474a6fbad29fc94a84e36e776694da7faedba6837f61b2d3bfbab2815bc1c399ed7173caad1e61192e0aa40ecd1a6256ef7568f0e7f0f89982ee6e3d27312db58bcaf1226a9fc1bf6c0f2b29ba551a0f71d4a1858e2772d944682ca62911f3c9b0665a8be3935cfbffcaa65b41fa1c88796225ba340681904b8422e24855b68c02f5a87a7c9316a1994b387ad5c09d4ce506f55d94dfe6e806147d62b8609f2900f657aff322a345b41fedb5b95efdae323b8121ebea90dcde45a1395631a5908aa956cd11cef9cb61f5b0c5a0c8221ac4b5af0983d4da808dcbda6301941c7c0407b544460a7f33dd13b8c5716693be9940ac065f80d6e1706b\",\"e\":\"3\"}"
+    "payload": "{\"n\":\"a0ac85b5d45737b5a3d58ea1c0dcb8d543abf33b627fa6ca6073f77f409cb14bfda843f62ddd2eb2a3641c1eacf746447993003e4005d0f132b40d5d9b463fe5fa5406018918850e955cc7f7e880457a5182b5275f16a3425236f3b66de5ef14a35b42b5f03f0ff72966e16c94a44e581082bf92855395c3c7c5e419a28fa04582356c46c48ba1f1925de50b0803ed643d40d4f2813de6e3f50ce4df9dc76f6c4595a0c7fc91be985f55b9777f939a0e80413dff2e448716ed0f1075f8a3395431917b2a978aab524643fb506997fb882b6cd0b33f6dd7f4bcedba9911ee887b9f092ef6963a2c98962d28d95bc3d83f5e65f166762cc48956bc104ea78db319\",\"e\":\"3\"}",
+    "local": true
   },
   {
     "step": 2,
     "actor": "Bob",
     "action": "Creates message",
     "detail": "Message prepared for blind signing.",
-    "payload": "{\"message\":\"c032adc1ff629c9b66f22749ad667e6beadf144b\"}"
+    "payload": "{\"message\":\"c032adc1ff629c9b66f22749ad667e6beadf144b\"}",
+    "local": true
   },
   {
     "step": 3,
     "actor": "Bob",
     "action": "Blinds message",
     "detail": "Bob blinds the message with random factor r before sending to Alice.",
-    "payload": "{\"r\":\"487184127af695bb3a12\",\"blinded\":\"23f68ec40a35a91cb13b2f3a416a71e8173944e2615a1007d3e9dd106525e5dff88da686e2bfab2687998a039cccc5a5bd79e5d5fe0dec182f0ccc6851524181a1416aec890\"}"
+    "payload": "{\"r\":\"630ba4e8cc9af39654f0\",\"blinded\":\"5be90dd2baf22477519c9cee35e6f9c119a86cc55304896903c93422254b702f39e7fe8b129c005f1b6fb90bae3be5c791fb4a008d2fc9cda58ce5c293cec7435ad10f7e000\"}",
+    "local": true
   }
 ]

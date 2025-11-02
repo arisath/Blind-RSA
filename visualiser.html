@@ -31,16 +31,14 @@
 
         .message {
           position: absolute;
-          font-size: 12px;
-          background: #ffd93d;
-          padding: 4px 8px;
-          border-radius: 4px;
-          white-space: pre-wrap;
-          word-wrap: break-word;
-          overflow-wrap: break-word;
-          max-width: 200px;
+          padding: 6px 10px;
+          border-radius: 6px;
+          max-width: 220px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           opacity: 0;
+          white-space: normal;         /* allow wrapping */
+          word-wrap: break-word;
+          overflow-wrap: break-word;
         }
 
         #controls { text-align: center; margin-top: 20px; }
@@ -66,25 +64,23 @@
 <script>
     let steps = [];
     let index = 0;
-    let lastY = 50; // tracks next vertical position
+    let lastY = 50;
     const diagram = document.getElementById('diagram');
 
-    // Actor positions in pixels
-    const positions = {
-      Alice: 0.8, // 80% left
-      Bob: 0.2    // 20% left
-    };
+    // Actor positions as fraction of diagram width
+    const positions = { Alice: 0.8, Bob: 0.2 };
 
-    // Load JSON
+    // Load JSON log
     fetch('output.json')
       .then(res => res.json())
       .then(data => { steps = data; });
 
-    // Animate a single step
+    // Animate a single step (local or sent)
     function animateStep(step) {
       return new Promise(resolve => {
         const fromActor = step.actor;
-        const toActor = fromActor === 'Bob' ? 'Alice' : 'Bob';
+        const isLocal = step.local === true; // ensure JSON has "local": true/false
+        const toActor = isLocal ? fromActor : (fromActor === 'Bob' ? 'Alice' : 'Bob');
         const startX = diagram.clientWidth * positions[fromActor];
         const endX   = diagram.clientWidth * positions[toActor];
 
@@ -92,11 +88,30 @@
         msg.className = 'message';
         msg.style.top = lastY + 'px';
         msg.style.left = startX + 'px';
-        msg.textContent = `${step.actor}: ${step.action}\n${step.payload}`;
-        diagram.appendChild(msg);
 
-        // Animate message
+        // Different bubble color for local vs sent
+        msg.style.backgroundColor = isLocal ? '#a2d5ab' : '#ffd93d';
+
+        msg.innerHTML = `
+          <div style="font-weight:bold; font-size:14px; white-space: normal; word-wrap: break-word; overflow-wrap: break-word;">
+            ${step.actor}: ${step.action}
+          </div>
+          <div style="font-size:12px; white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word;">
+            ${step.payload}
+          </div>
+        `;
+        diagram.appendChild(msg);
         msg.style.opacity = 1;
+
+        if (isLocal) {
+          // Local step: no horizontal animation
+          lastY += msg.offsetHeight + 10;
+          diagram.scrollTop = diagram.scrollHeight;
+          resolve();
+          return;
+        }
+
+        // Animate sent message
         let progress = 0;
         const stepsCount = 50;
         const interval = setInterval(() => {
@@ -105,9 +120,9 @@
           msg.style.left = x + 'px';
           if (progress >= stepsCount) {
             clearInterval(interval);
-            lastY += msg.offsetHeight + 20; // update vertical position for next message
-            resolve();
+            lastY += msg.offsetHeight + 10;
             diagram.scrollTop = diagram.scrollHeight;
+            resolve();
           }
         }, 20);
       });

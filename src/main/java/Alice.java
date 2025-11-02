@@ -40,7 +40,7 @@ public class Alice
 
             log.add(1, "Alice", "Generates RSA keys",
                     "Alice creates her public/private key pair.",
-                    String.format("{\"n\":\"%s\",\"e\":\"%s\"}", n.toString(16), e.toString(16)));
+                    String.format("{\"n\":\"%s\",\"e\":\"%s\"}", n.toString(16), e.toString(16)),true);
 
             return (keyPair);  //return the key pair produced (N,e,d)
 

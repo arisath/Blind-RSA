@@ -6,7 +6,16 @@
     <style>
         body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
         h1 { text-align: center; }
-        #diagram { position: relative; width: 90%; margin: 20px auto; border: 1px solid #ccc; height: 600px; background: #fff; overflow-y: auto; }
+        #diagram {
+          position: relative;
+          width: 90%;
+          margin: 20px auto;
+          border: 1px solid #ccc;
+          min-height: 600px;
+          max-height: 80vh;
+          background: #fff;
+          overflow-y: auto;
+        }
         .actor {
           position: absolute;
           width: 120px;
@@ -24,7 +33,7 @@
           width: 2px;
           background: #888;
           top: 50px;
-          bottom: 20px;
+          height: 600px; /* initial height, will grow dynamically */
         }
         #aliceLine { left: 85%; }
         #bobLine   { left: 25%; }
@@ -36,7 +45,7 @@
           max-width: 220px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           opacity: 0;
-          white-space: normal;         /* allow wrapping */
+          white-space: normal;
           word-wrap: break-word;
           overflow-wrap: break-word;
         }
@@ -66,8 +75,6 @@
     let index = 0;
     let lastY = 50;
     const diagram = document.getElementById('diagram');
-
-    // Actor positions as fraction of diagram width
     const positions = { Alice: 0.8, Bob: 0.2 };
 
     // Load JSON log
@@ -75,11 +82,20 @@
       .then(res => res.json())
       .then(data => { steps = data; });
 
+    // Update lifeline heights dynamically
+    function updateLifelines() {
+      const aliceLine = document.getElementById('aliceLine');
+      const bobLine = document.getElementById('bobLine');
+      const newHeight = lastY + 20; // some padding below the last message
+      aliceLine.style.height = newHeight + 'px';
+      bobLine.style.height = newHeight + 'px';
+    }
+
     // Animate a single step (local or sent)
     function animateStep(step) {
       return new Promise(resolve => {
         const fromActor = step.actor;
-        const isLocal = step.local === true; // ensure JSON has "local": true/false
+        const isLocal = step.local === true;
         const toActor = isLocal ? fromActor : (fromActor === 'Bob' ? 'Alice' : 'Bob');
         const startX = diagram.clientWidth * positions[fromActor];
         const endX   = diagram.clientWidth * positions[toActor];
@@ -88,8 +104,6 @@
         msg.className = 'message';
         msg.style.top = lastY + 'px';
         msg.style.left = startX + 'px';
-
-        // Different bubble color for local vs sent
         msg.style.backgroundColor = isLocal ? '#a2d5ab' : '#ffd93d';
 
         msg.innerHTML = `
@@ -100,12 +114,13 @@
             ${step.payload}
           </div>
         `;
+
         diagram.appendChild(msg);
         msg.style.opacity = 1;
 
         if (isLocal) {
-          // Local step: no horizontal animation
           lastY += msg.offsetHeight + 10;
+          updateLifelines();
           diagram.scrollTop = diagram.scrollHeight;
           resolve();
           return;
@@ -121,6 +136,7 @@
           if (progress >= stepsCount) {
             clearInterval(interval);
             lastY += msg.offsetHeight + 10;
+            updateLifelines();
             diagram.scrollTop = diagram.scrollHeight;
             resolve();
           }

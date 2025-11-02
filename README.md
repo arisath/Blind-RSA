@@ -84,3 +84,5 @@ It also includes a visualisation (sequence diagram) to help understand the entir
 4. This will generate `output.json`.
 5. Open the visualiser HTML file in a browser
 
+## Visualised in HTML
+![Blind RSA Sequence Diagram](img/uml.png)

@@ -8,13 +8,20 @@ import java.security.spec.RSAKeyGenParameterSpec;
  */
 public class Alice
 {
+    private final VisualizerLogger log;
+
+    public Alice(VisualizerLogger log) throws Exception
+    {
+        this.log = log;
+    }
+
     /**
      * Produces and returns an RSA keypair (N,e,d)
      * N: Modulus, e: Public exponent, d: Private exponent
      * The public exponent value is set to 3 and the keylength to 2048
      * @return RSA keypair
      */
-    public static KeyPair produceKeyPair()
+    public static KeyPair produceKeyPair(VisualizerLogger log)
     {
         try
         {
@@ -25,6 +32,15 @@ public class Alice
             rsaKeyPairGenerator.initialize(spec); //initialise generator with the above parameters
 
             KeyPair keyPair = rsaKeyPairGenerator.generateKeyPair(); //generate the key pair, N:modulus, d:private exponent
+
+
+            BigInteger  n = ((java.security.interfaces.RSAPublicKey) keyPair.getPublic()).getModulus();
+            BigInteger  e = ((java.security.interfaces.RSAPublicKey) keyPair.getPublic()).getPublicExponent();
+            BigInteger d = ((java.security.interfaces.RSAPrivateKey) keyPair .getPrivate()).getPrivateExponent();
+
+            log.add(1, "Alice", "Generates RSA keys",
+                    "Alice creates her public/private key pair.",
+                    String.format("{\"n\":\"%s\",\"e\":\"%s\"}", n.toString(16), e.toString(16)));
 
             return (keyPair);  //return the key pair produced (N,e,d)
 

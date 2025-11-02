@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blind RSA Animated Sequence Diagram</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        h1 { text-align: center; }
+        #diagram { position: relative; width: 90%; margin: 20px auto; border: 1px solid #ccc; height: 600px; background: #fff; overflow-y: auto; }
+        .actor {
+          position: absolute;
+          width: 120px;
+          text-align: center;
+          font-weight: bold;
+          color: #fff;
+          padding: 10px;
+          border-radius: 6px;
+        }
+        #alice { left: 80%; top: 0; background: #ff6b6b; }
+        #bob   { left: 20%; top: 0; background: #4dabf7; }
+
+        .lifeline {
+          position: absolute;
+          width: 2px;
+          background: #888;
+          top: 50px;
+          bottom: 20px;
+        }
+        #aliceLine { left: 85%; }
+        #bobLine   { left: 25%; }
+
+        .message {
+          position: absolute;
+          font-size: 12px;
+          background: #ffd93d;
+          padding: 4px 8px;
+          border-radius: 4px;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          max-width: 200px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          opacity: 0;
+        }
+
+        #controls { text-align: center; margin-top: 20px; }
+        button { padding: 8px 12px; margin: 0 5px; cursor: pointer; border: none; border-radius: 4px; background: #0077cc; color: white; }
+    </style>
+</head>
+<body>
+
+<h1>Blind RSA Animated Sequence Diagram</h1>
+
+<div id="diagram">
+    <div id="alice" class="actor">Alice</div>
+    <div id="bob" class="actor">Bob</div>
+    <div id="aliceLine" class="lifeline"></div>
+    <div id="bobLine" class="lifeline"></div>
+</div>
+
+<div id="controls">
+    <button id="nextBtn">Next Step</button>
+    <button id="playBtn">Play All</button>
+</div>
+
+<script>
+    let steps = [];
+    let index = 0;
+    let lastY = 50; // tracks next vertical position
+    const diagram = document.getElementById('diagram');
+
+    // Actor positions in pixels
+    const positions = {
+      Alice: 0.8, // 80% left
+      Bob: 0.2    // 20% left
+    };
+
+    // Load JSON
+    fetch('output.json')
+      .then(res => res.json())
+      .then(data => { steps = data; });
+
+    // Animate a single step
+    function animateStep(step) {
+      return new Promise(resolve => {
+        const fromActor = step.actor;
+        const toActor = fromActor === 'Bob' ? 'Alice' : 'Bob';
+        const startX = diagram.clientWidth * positions[fromActor];
+        const endX   = diagram.clientWidth * positions[toActor];
+
+        const msg = document.createElement('div');
+        msg.className = 'message';
+        msg.style.top = lastY + 'px';
+        msg.style.left = startX + 'px';
+        msg.textContent = `${step.actor}: ${step.action}\n${step.payload}`;
+        diagram.appendChild(msg);
+
+        // Animate message
+        msg.style.opacity = 1;
+        let progress = 0;
+        const stepsCount = 50;
+        const interval = setInterval(() => {
+          progress++;
+          const x = startX + (endX - startX) * (progress / stepsCount);
+          msg.style.left = x + 'px';
+          if (progress >= stepsCount) {
+            clearInterval(interval);
+            lastY += msg.offsetHeight + 20; // update vertical position for next message
+            resolve();
+            diagram.scrollTop = diagram.scrollHeight;
+          }
+        }, 20);
+      });
+    }
+
+    // Next Step
+    document.getElementById('nextBtn').addEventListener('click', async () => {
+      if (index >= steps.length) return;
+      await animateStep(steps[index]);
+      index++;
+    });
+
+    // Play All
+    document.getElementById('playBtn').addEventListener('click', async () => {
+      index = 0;
+      lastY = 50;
+      diagram.innerHTML = `
+        <div id="alice" class="actor">Alice</div>
+        <div id="bob" class="actor">Bob</div>
+        <div id="aliceLine" class="lifeline"></div>
+        <div id="bobLine" class="lifeline"></div>
+      `;
+      for (; index < steps.length; index++) {
+        await animateStep(steps[index]);
+      }
+    });
+</script>
+
+</body>
+</html>

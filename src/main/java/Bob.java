@@ -10,6 +10,12 @@ import java.security.interfaces.RSAPublicKey;
  */
 public class Bob
 {
+    private final VisualizerLogger log;
+
+    public Bob(VisualizerLogger log) {
+        this.log = log;
+    }
+
     static BigInteger r;
 
     static BigInteger m;
@@ -21,13 +27,17 @@ public class Bob
      * It is important that r is a random number so that mu does not leak any information about the actual message
      * @return the blinded messahe mu
      */
-    public static BigInteger calculateMu(RSAPublicKey rsaPublicKey)
+    public static BigInteger calculateMu(RSAPublicKey rsaPublicKey,VisualizerLogger log)
     {
         try
         {
             String message = DigestUtils.sha1Hex("X"); //calculate SHA1 hash over message;
 
             byte[] msg = message.getBytes("UTF8"); //get the bytes of the hashed message
+
+            log.add(2, "Bob", "Creates message",
+                    "Message prepared for blind signing.",
+                    String.format("{\"message\":\"%s\"}", message));
 
             m = new BigInteger(msg);  //create a BigInteger object based on the extracted bytes of the message
 
@@ -59,6 +69,10 @@ public class Bob
 
             BigInteger mu = ((r.modPow(e, N)).multiply(m)).mod(N); //Bob computes mu = H(msg) * r^e mod N
 
+            log.add(3, "Bob", "Blinds message",
+                    "Bob blinds the message with random factor r before sending to Alice.",
+                    String.format("{\"r\":\"%s\",\"blinded\":\"%s\"}", r.toString(16), mu.toString(16)));
+
             return mu;
 
         } 
@@ -76,7 +90,7 @@ public class Bob
      * @param muprime
      * @return signature
      */
-    public static String signatureCalculation(BigInteger muprime)
+    public static String signatureCalculation(BigInteger muprime,VisualizerLogger log)
     {
         try
         {
@@ -106,7 +120,7 @@ public class Bob
      * Checks if the signature received from Alice, is a valid signature for the message given, this can be easily computed because(m^d)^e modN = m
      * @param signature
      */
-    public static void verify(String signature)
+    public static void verify(String signature,VisualizerLogger log)
     {
         try
         {

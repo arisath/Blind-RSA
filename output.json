@@ -4,7 +4,7 @@
     "actor": "Alice",
     "action": "Generates RSA keys",
     "detail": "Alice creates her public/private key pair.",
-    "payload": "{\"n\":\"a0ac85b5d45737b5a3d58ea1c0dcb8d543abf33b627fa6ca6073f77f409cb14bfda843f62ddd2eb2a3641c1eacf746447993003e4005d0f132b40d5d9b463fe5fa5406018918850e955cc7f7e880457a5182b5275f16a3425236f3b66de5ef14a35b42b5f03f0ff72966e16c94a44e581082bf92855395c3c7c5e419a28fa04582356c46c48ba1f1925de50b0803ed643d40d4f2813de6e3f50ce4df9dc76f6c4595a0c7fc91be985f55b9777f939a0e80413dff2e448716ed0f1075f8a3395431917b2a978aab524643fb506997fb882b6cd0b33f6dd7f4bcedba9911ee887b9f092ef6963a2c98962d28d95bc3d83f5e65f166762cc48956bc104ea78db319\",\"e\":\"3\"}",
+    "payload": "{\"n\":\"9c5c25cd0d5dd8ed316052cdd0a6d30473ec49f1109fae400cef9515a9339680c00c9d771e10589e1731caca9fb0dbaa2228c0cc8acd37d3b021b2a6b237d9ed6e59631df3adfd244d6f123e16198fcda66c1fecac81b21ab32f6f7bbbb635f47af4b5abf8347b50cd703ce0a827850d01cf6cb612a31d5eb2be4e87b34bb9d1b0bdec6678e3a18c2b7d97ea7facb3b738f6d9fd6a6a7b404e50785f73a84e519a71299d8ec33ffc64e39c5b8a0b304bbe2fafd0cfcb788270a16cf2f23d32a218456a17f50a054a6095da389e02a5aa76c78b0e9ab1dd300360402e845c863e947b28578c60f566781501d880cfbf1008269998a922dc3590a83d894fd64a07\",\"e\":\"3\"}",
     "local": true
   },
   {
@@ -20,7 +20,39 @@
     "actor": "Bob",
     "action": "Blinds message",
     "detail": "Bob blinds the message with random factor r before sending to Alice.",
-    "payload": "{\"r\":\"630ba4e8cc9af39654f0\",\"blinded\":\"5be90dd2baf22477519c9cee35e6f9c119a86cc55304896903c93422254b702f39e7fe8b129c005f1b6fb90bae3be5c791fb4a008d2fc9cda58ce5c293cec7435ad10f7e000\"}",
+    "payload": "{\"r\":\"10a42af17965740db7a9\",\"blinded\":\"6f995d6aea526da5c4558062bb313c6ad5678a799dd5325517a1d3ef09cb781869ce00dbaa720531726cad4a691d88afe0cd5d76029ace06b8613d1a1b49e90acd26b30d2\"}",
+    "local": true
+  },
+  {
+    "step": 4,
+    "actor": "Bob",
+    "action": "Bob sends the blinded message Alice.",
+    "detail": "Bob sends the blinded message Alice.",
+    "payload": "\"blinded\":\"6f995d6aea526da5c4558062bb313c6ad5678a799dd5325517a1d3ef09cb781869ce00dbaa720531726cad4a691d88afe0cd5d76029ace06b8613d1a1b49e90acd26b30d2\"}",
+    "local": false
+  },
+  {
+    "step": 5,
+    "actor": "Alice",
+    "action": "Alice calculate muprime",
+    "detail": "Alice calculate muprime.",
+    "payload": "\"muprime\":\"4ae6756881bff5383a456ef6b227c17c390d7a3b7e0098794cfaed1a1bdd200257358e762acc7bde40380ca2ac3cc49ec9d989e32c895bc75b30fa85cd1e55620e15f3a90bdd7b524b8d80d7f00dcbfa0a6dee4e7090d7fa262d0207dbe990c622eb523b172fb24fbe2a2454714d8ea42ffdb8d57add8c5f3394f529d0b1d64ad679a47ce81e400d8d52289b2f19e17b4b85e342ad4402a3e9d3ff48101bce32c0e88edcf161822ad734b5dfa91526c499f4a8344987b555b8ca2058603cea9efacfa17a917be5123dde8a3bcd83984d0f31b08e5e6f1ce380a44256ce12fb1ee1d741c9a4f257194040944077f1d7f29e260eb7f0398f31a434ad33520bb7f4\"}",
+    "local": true
+  },
+  {
+    "step": 6,
+    "actor": "Bob",
+    "action": "Bob computes signature.",
+    "detail": "Bob computes signature.",
+    "payload": "\"signature\":\"ESC96SohMbYStb6XrAAx/VjVJ/cpXmgVhtsuWmVLlpYdPOZG70+ja0dSreZjAFBlXnH98dh18J/9CkyS3asZLVmB/x5/U4uwmqwK9qSia7Ta7VK2QYcrxXxCAlAJXBl/sluPtE+mRCf9Z0G27U7PYLkd4Vr7xKDl1axtVOuI7DP99owmmwu7FDmcY1D8v8bvKWqK7yFoSxUha6kNYFsVVGt+cJ9EbSSbPe5ZIembc2s3eGErcjrKUFl4ZscT1Vtv0O6lEwd33LDrEkuQUqrbn3pLUqZOrnM4Y11BnHAlifhFgK9AREtA0hybQbd4lHqKAxm6xigdiv6L9wbCJtuFrA\u003d\u003d\"}",
+    "local": true
+  },
+  {
+    "step": 7,
+    "actor": "Bob",
+    "action": "Bob verifies signature.",
+    "detail": "Bob verifies signature",
+    "payload": "",
     "local": true
   }
 ]

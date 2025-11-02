@@ -73,6 +73,10 @@ public class Bob
                     "Bob blinds the message with random factor r before sending to Alice.",
                     String.format("{\"r\":\"%s\",\"blinded\":\"%s\"}", r.toString(16), mu.toString(16)),true);
 
+            log.add(4, "Bob", "Bob sends the blinded message Alice.",
+                    "Bob sends the blinded message Alice.",
+                    String.format("\"blinded\":\"%s\"}", mu.toString(16)),false);
+
             return mu;
 
         } 
@@ -106,6 +110,10 @@ public class Bob
             System.out.println("Signature produced with Blind RSA procedure for message (hashed with SHA1): " + new String(m.toByteArray()) + " is: ");
 
             System.out.println(signature);
+
+            log.add(6, "Bob", "Bob computes signature.",
+                    "Bob computes signature.",
+                    String.format("\"signature\":\"%s\"}", signature.toString()),true);
 
             return signature; 
         }
@@ -143,11 +151,15 @@ public class Bob
             if (signedMessage.equals(initialMessage)) //compare the two Strings, if they are equal the signature we got is a valid
             {
                 System.out.println("Verification of signature completed successfully"); //print message for successful verification of the signature
+
             } 
             else
             {
                 System.out.println("Verification of signature failed"); // print message for unsuccessful verification of the signature
             }
+            log.add(7, "Bob", "Bob verifies signature.",
+                    "Bob verifies signature",
+                   "",true);
         } 
         catch (Exception e)
         {

@@ -59,7 +59,7 @@ public class Alice
      * @param mu
      * @return mu'
      */
-    public static BigInteger calculateMuPrimeWithChineseRemainderTheorem(BigInteger mu)
+    public static BigInteger calculateMuPrimeWithChineseRemainderTheorem(BigInteger mu,VisualizerLogger log)
     {
         try
         {
@@ -87,6 +87,11 @@ public class Alice
             //We calculate muprime: (m1*Q*QinverseModP + m2*P*PinverseModQ) mod N where N =P*Q
             
             BigInteger muprime = ((m1.multiply(Q).multiply(QinverseModP)).add(m2.multiply(P).multiply(PinverseModQ))).mod(N);
+
+            log.add(5, "Alice", "Alice calculate muprime",
+                    "Alice calculate muprime.",
+                    String.format("\"muprime\":\"%s\"}", muprime.toString(16)),true);
+
 
             return muprime;
 

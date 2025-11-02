@@ -27,6 +27,7 @@ public class BlindRsa
 
             long start = System.currentTimeMillis(); //get current time in milliseconds
 
+            //Step 1
 			alicePair = Alice.produceKeyPair(log); // call Alice's function to produce a key pair (N, e ,d), and save it in alicePair variable
 
 			alicePrivate = (RSAPrivateCrtKey) alicePair.getPrivate(); //get the private key d out of the key pair Alice produced
@@ -35,11 +36,14 @@ public class BlindRsa
 
 			N = alicePublic.getModulus(); //get the modulus of the key pair produced by Alice
 
-			mu = Bob.calculateMu(alicePublic,log); //call Bob's function calculateMu with alice Public key as input in order to calculate mu, and store it in mu variable
+            //Step 2-3
+            mu = Bob.calculateMu(alicePublic,log); //call Bob's function calculateMu with alice Public key as input in order to calculate mu, and store it in mu variable
 
-			muprime = Alice.calculateMuPrimeWithChineseRemainderTheorem(mu); // call Alice's function calculateMuPrime with mu produced earlier by Bob as input, to calculate  mu' and store it to muprime  variable
+            //Step 4
+            muprime = Alice.calculateMuPrimeWithChineseRemainderTheorem(mu,log); // call Alice's function calculateMuPrime with mu produced earlier by Bob as input, to calculate  mu' and store it to muprime  variable
 
-			String sig = Bob.signatureCalculation(muprime,log); // call Bob's function signatureCalculation with muprime as input and calculate the signature, then store it in sig variable
+            //Step 5
+            String sig = Bob.signatureCalculation(muprime,log); // call Bob's function signatureCalculation with muprime as input and calculate the signature, then store it in sig variable
 
 			Bob.verify(sig,log); //Bob is checking if the signature he got from Alice is valid, that can be easily computed because (m^d)^e modN = m
 
